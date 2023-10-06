@@ -25,7 +25,9 @@ class ManipuladorListas:
         self.lista_fechada=[]
         self.origem = origem
         self.destino = destino
-        self.lista_aberta.append(Ponto(origem, plano))
+        ponto_inicial=Ponto(origem, plano)
+        ponto_inicial.predecessor=None
+        self.lista_aberta.append(ponto_inicial)
         self.adicionar_pontos_adjacentes(self.lista_aberta[0])
 
     def ordenar(self) -> None:
@@ -40,3 +42,6 @@ class ManipuladorListas:
         self.lista_aberta.extend(ponto.rastrear_pontos_proximos(self.plano))
         self.mandar_para_lista_fechada(ponto.coordenadas)
         self.ordenar()
+
+    def destino_esta_na_lista_fechada(self) -> bool:
+        return self.destino not in list(map(lambda ponto: ponto.coordenadas, self.lista_fechada)) 
